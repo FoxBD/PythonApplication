@@ -1,0 +1,57 @@
+
+# Flask MSSQL CRUD App Setup Instructions
+
+## Step 1: Install dependencies
+You can install the necessary packages using pip:
+
+```bash
+pip install flask flask_sqlalchemy flask_migrate pyodbc sqlalchemy
+```
+
+## Step 2: Set up the database connection
+Ensure you have the following connection string in your `app/__init__.py` file:
+
+```python
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BODBC%20Driver%2017%20for%20SQL%20Server%7D%3BSERVER%3DLAPTOP-FOXBD%3BDATABASE%3DVerySecureDatabase%3BTrusted_Connection%3Dyes%3BTrustServerCertificate%3Dyes"
+```
+
+Make sure to adjust the connection string according to your SQL Server setup.
+
+## Step 3: Run the migrations
+To set up the database tables, run the following commands in your terminal:
+
+```bash
+flask db init
+flask db migrate
+flask db upgrade
+```
+
+This will create the tables and apply any migrations.
+
+## Step 4: Running the application
+Once the migrations are done, start the Flask application:
+
+```bash
+python run.py
+```
+
+The app will be running on `http://127.0.0.1:5000/`. You can now interact with the API.
+
+## API Endpoints
+
+- **GET** `/items` - Retrieves all items.
+- **POST** `/items` - Creates a new item. Example JSON payload:
+    ```json
+    {
+        "name": "Sample Item",
+        "description": "This is a sample description."
+    }
+    ```
+- **PATCH** `/items/<id>` - Updates an item by ID. Example JSON payload:
+    ```json
+    {
+        "name": "Updated Item",
+        "description": "Updated description."
+    }
+    ```
+- **DELETE** `/items/<id>` - Deletes an item by ID.
